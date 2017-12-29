@@ -1,6 +1,6 @@
 const passport = require('passport')
 
-module.exports = function() {
+module.exports = function(User) {
     return {
         SetRouting: function(router) {
             // GET Routes
@@ -10,15 +10,32 @@ module.exports = function() {
 
 
             // POST Routes
-            router.post('/signup', this.postSignUp)
+            router.post('/', User.LoginValidation, this.postLogin)
+            router.post('/signup', User.SignUpValidation, this.postSignUp)
         }, 
 
-        indexPage: function(req, res) {
-            return res.render('index', {test: 'This is a test'})
+        indexPage: function (req, res) {
+            const errors = req.flash('error')
+            return res.render('index', { 
+                title: 'Web Chat | Login', 
+                messages: errors, 
+                hasErrors: errors.length > 0 
+            })
         }, 
+
+        postLogin: passport.authenticate('local.login', {
+            successRedirect: '/home',
+            failureRedirect: '/',
+            failureFlash: true
+        }), 
 
         getSignUp: function(req, res) {
-            return res.render('signup')
+            const errors = req.flash('error')
+            return res.render('signup', {
+                title: 'Web Chat App | Signup', 
+                messages: errors,
+                hasErrors: errors.length > 0
+            })
         }, 
 
         postSignUp: passport.authenticate('local.signup', {
