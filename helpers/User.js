@@ -1,6 +1,7 @@
 module.exports = function() {
     return {
         SignUpValidation: (req, res, next) => {
+            // Validate Form on the Server Side
             req.checkBody('username', 'Username is required.').notEmpty()
             req.checkBody('username', 'Username must not be less than 5.').isLength({min: 5})
             
@@ -10,6 +11,7 @@ module.exports = function() {
             req.checkBody('password', 'Password is required.').notEmpty()
             req.checkBody('password', 'Password must not be less than 5').isLength({min: 5})
 
+            // Output any Errors if Form Unsuccessful
             req.getValidationResult()
                 .then(result => {
                     const errors = result.array()

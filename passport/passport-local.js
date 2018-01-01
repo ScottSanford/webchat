@@ -2,27 +2,37 @@ const passport = require('passport')
 const User = require('../models/users')
 const LocalStrategy = require('passport-local').Strategy
 
+// Allows or determines which of the users info will be saved in the session
+// Using the User ID
 passport.serializeUser((user, done) => {
     done(null, user.id)
 })
 
+// Find User ID match compared to the Database
 passport.deserializeUser((id, done) => {
     User.findById(id, (err, user) => {
+        // if no err, err == null and user == {}
         done(err, user)
     })
 })
 
-passport.use('local.signup', new LocalStrategy({
-    usernameField: 'email', 
-    passwordField: 'password', 
+const formFields = {
+    usernameField: 'email',
+    passwordField: 'password',
     passReqToCallback: true
-}, (req, email, password, done) => {
+}
 
+// Passport Middleware 
+passport.use('local.signup', new LocalStrategy(
+    formFields, (req, email, password, done) => {
+    // Look in MongoDB for a user match
     User.findOne({'email': email}, (err, user) => {
+        // Network Error
         if (err) {
             return done(err)
         }
 
+        // if the email already exists
         if (user) {
             return done(null, false, req.flash('error', 'User with email already exists'))
         }
@@ -32,18 +42,16 @@ passport.use('local.signup', new LocalStrategy({
         newUser.email = req.body.email
         newUser.password = newUser.encryptPassword(req.body.password)
 
-        newUser.save((err) => {
+        // Save a new user to MongoDB
+        newUser.save(err => {
             done(null, newUser)
         })
     })
 
 }))
 
-passport.use('local.login', new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password',
-    passReqToCallback: true
-}, (req, email, password, done) => {
+passport.use('local.login', new LocalStrategy(
+    formFields, (req, email, password, done) => {
 
     User.findOne({ 'email': email }, (err, user) => {
         if (err) {
