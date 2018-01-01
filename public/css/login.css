@@ -253,3 +253,21 @@ footer .container .text-muted {
     background: #4aa1f3;
     color:#fff;
 }
+
+.btn-google {
+    background: #e44b34;
+    border-radius: 0;
+    color: #fff;
+    width: 100px;
+}
+
+.btn-google:link, .btn-google:visited {
+    color: #fff;
+    text-decoration: none;
+    background: #e44b34;
+}
+
+.btn-google:active, .btn-google:hover {
+    background: #e44b34;
+    color:#fff;
+}
