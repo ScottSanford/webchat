@@ -9,8 +9,7 @@ const user = {
     userImage: {type: String, default: 'default.png'},
     facebook: {type: String, default: ''},
     fbTokens: Array,
-    google: {type: String, default: ''},
-    googleTokens: Array
+    google: {type: String, default: ''}
 }
 
 // User Data to be saved for MongoDB 
