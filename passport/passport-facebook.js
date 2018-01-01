@@ -17,17 +17,14 @@ passport.deserializeUser((id, done) => {
     })
 })
 
-const formFields = {
+// Passport Middleware 
+passport.use(new FacebookStrategy({
     clientID: secret.facebook.clientID,
     clientSecret: secret.facebook.clientSecret,
     profileFields: ['email', 'displayName', 'photos'],
     callbackURL: 'http://localhost:3000/auth/facebook/callback',
     passReqToCallback: true
-}
-
-// Passport Middleware 
-passport.use(new FacebookStrategy(
-    formFields, (req, token, refreshToken, profile, done) => {
+}, (req, token, refreshToken, profile, done) => {
         // Look in MongoDB for a user match
         User.findOne({ facebook: profile.id }, (err, user) => {
             // Network Error
