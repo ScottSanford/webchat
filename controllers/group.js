@@ -8,7 +8,8 @@ module.exports = function() {
             const name = req.params.name
             res.render('groupchat/group', {
                 title: 'Webchat - Group',
-                groupName: name
+                groupName: name,
+                user: req.user
             })
         }
     }

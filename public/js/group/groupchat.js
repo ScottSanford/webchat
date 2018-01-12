@@ -1,6 +1,7 @@
 $(document).ready(function(){
     var socket = io();
     var room = $('#groupName').val();
+    var sender = $('#sender').val();
 
     // create a socket connection
     socket.on('connect', function(){
@@ -29,7 +30,8 @@ $(document).ready(function(){
 
         socket.emit('createMessage', {
             text: message,
-            room: room
+            room: room,
+            from: sender
         }, function(){
             $('#msg').val('');
         });
