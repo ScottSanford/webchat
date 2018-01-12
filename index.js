@@ -13,7 +13,7 @@ const _ = require('lodash')
 
 const container = require('./container')
 
-container.resolve(function(users, admin) {
+container.resolve(function(users, admin, home) {
 
     mongoose.Promise = global.Promise
     mongoose.connect('mongodb://localhost/webchat')
@@ -33,6 +33,7 @@ container.resolve(function(users, admin) {
         const router = require('express-promise-router')()
         users.SetRouting(router)
         admin.SetRouting(router)
+        home.SetRouting(router)
 
         app.use(router)
     }
