@@ -11,6 +11,7 @@ const flash = require('connect-flash')
 const passport = require('passport')
 const _ = require('lodash')
 const socketIO = require('socket.io')
+const {Users} = require('./helpers/UsersClass')
 
 const container = require('./container')
 
@@ -28,7 +29,7 @@ container.resolve(function(users, admin, home, group) {
         server.listen(3000, () => console.log('Listening on port 3000'))
         ConfigureExpress(app)
 
-        require('./socket/groupchat')(io)
+        require('./socket/groupchat')(io, Users)
 
         // Setup Router
         const router = require('express-promise-router')()

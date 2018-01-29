@@ -109,7 +109,20 @@
                             </div>
 
                             <div class="chat_area">
-
+                                <ul id="messages" class="list-unstyled">      
+                                    <script id="message-template" type="text/template">
+                                        <li class="left">
+                                            <span class="chat-img1 pull-left">
+                                                <img src="http://placehold.it/300x300" class="img-circle" alt="">
+                                            </span>
+                                            <div class="chat-body1">
+                                                <span class="chat-name">{{sender}}</span>
+                                                <br>
+                                                {{text}}
+                                            </div>
+                                        </li>
+                                    </script>
+                                </ul>
                             </div>
 
                             <div class="message_write">
@@ -158,7 +171,7 @@
                                             <form action="" method="get" id="add_friend">
                                                 <input type="hidden" name="receiverName" id="receiverName" value="">
                                                 <input type="hidden" name="sender-name" id="sender-name" value="">
-                                                <button type="submit" id="friend-add" class="btn add">
+                                                <button type="submit" id="friend-add" class="btn btn-primary add">
                                                     <i class="fa fa-user"></i> Add Friend</button>
 
                                                 <a id="nameLink" class="btn ">View Profile</a>
@@ -197,6 +210,7 @@
         crossorigin="anonymous"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/group/groupchat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.js"></script>
 </body>
 
 </html>
