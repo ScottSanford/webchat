@@ -38,6 +38,7 @@ module.exports = function() {
 
                 res.render('home', {
                     title: 'Webchat - Home',
+                    user: req.user,
                     data: dataChunk, 
                     cities: citySort
                 })
