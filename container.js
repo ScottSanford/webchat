@@ -9,6 +9,7 @@ const simpleDependencies = [
     ['formidable', 'formidable'], 
     ['async', 'async'], 
     ['Groups', './models/groups'],
+    ['Users', './models/users'],
     ['aws', './helpers/AWSUpload']
 ]
 
