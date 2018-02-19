@@ -9,7 +9,19 @@ const user = {
     userImage: {type: String, default: 'default.png'},
     facebook: {type: String, default: ''},
     fbTokens: Array,
-    google: {type: String, default: ''}
+    google: {type: String, default: ''},
+    sentRequest: [{
+        username: {type: String, default: ''}
+    }],
+    request: [{
+        userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+        username: {type: String, default: '' }
+    }],
+    friendsList: [{
+        friendId: {type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        friendName: {type: String, default: ''}
+    }],
+    totalRequest: {type: Number, default: 0}
 }
 
 // User Data to be saved for MongoDB 
