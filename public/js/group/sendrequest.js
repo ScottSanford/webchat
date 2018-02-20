@@ -37,6 +37,25 @@ $(document).ready(function(){
                 });
             }
         });
-    })
+    });
+
+    $('#accept_friend').on('click', function(){
+        var senderId = $('#senderId').val();
+        var senderName = $('#senderName').val();
+
+        $.ajax({
+            url: '/group/' + room,
+            type: 'POST',
+            data: {
+                senderId: senderId,
+                senderName: senderName
+            },
+            success: function() {
+                // remove Accept Friend Element Request in the DOM
+                $(this).parent().eq(1).remove();
+            }
+        });
+        $('#reload').load(location.href + ' #reload');
+    });
 
 });
