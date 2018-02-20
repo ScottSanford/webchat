@@ -10,11 +10,28 @@ module.exports = function() {
 
         groupPage: function(req, res) {
             const name = req.params.name
-            res.render('groupchat/group', {
-                title: 'Webchat - Group',
-                groupName: name,
-                user: req.user
+            
+            // get data of every logged in user
+            async.parallel([
+                function(callback) {
+                    // find user who matches the req.user.username
+                    Users.findOne({'username': req.user.username})
+                        // for that particular user, populate the friend request
+                        .populate('request.userId')
+                        .exec((err, result) => {
+                            callback(err, result)
+                        })
+                }
+            ], (err, result) => {
+                const result1 = result[0]
+                res.render('groupchat/group', {
+                    title: 'Webchat - Group',
+                    groupName: name,
+                    user: req.user,
+                    data: result1
+                })
             })
+            
         },
 
         groupPostPage: function(req, res) {
