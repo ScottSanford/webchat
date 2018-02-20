@@ -15,7 +15,7 @@ $(document).ready(function(){
     });
 
     socket.on('newFriendRequest', function(friend){
-        console.log(friend)
+        $('#reload').load(location.href + ' #reload');
     })
 
     $('#add_friend').on('submit', function(e){
