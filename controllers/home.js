@@ -6,13 +6,15 @@ const Users = require('../models/users')
 module.exports = function() {
     const home = {
         setRouting,
-        getHomePage
+        getHomePage,
+        postHomePage
     }
 
     return home
 
     function setRouting(router) {
         router.get('/home', home.getHomePage)
+        router.post('/home', home.postHomePage)
     }
 
     function getHomePage(req, res) {
@@ -61,6 +63,29 @@ module.exports = function() {
                 cities: citySort,
                 data: res3
             })
+        })
+    }
+
+    function postHomePage(req, res) {
+        async.parallel([
+            function(callback) {
+                Group.update({
+                    '_id': req.body.id,
+                    'fans.username': {$ne: req.user.username}
+                }, {
+                    $push: {
+                        fans: {
+                            username: req.user.username,
+                            email: req.user.email
+                        }
+                    }
+                }, (err, count) => {
+                    console.log('success', count)
+                    callback(err, count)
+                })
+            }
+        ], (err, results) => {
+            res.redirect('/home')
         })
     }
 }
