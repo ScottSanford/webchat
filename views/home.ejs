@@ -64,7 +64,7 @@
                         <div class="category-list">
                             <div class="row">
                                 <% _.forEach(val, val2 => {  %>
-                                <form action="#" method="post" id="add-fav">
+                                <form action="/home" method="post" id="favorite">
                                     <div class="item col-md-4">
                                         <a style="text-decoration:none" href="/group/<%= val2.name %>">
                                             <div class="thumbnail">
@@ -80,6 +80,8 @@
                                                         </div>
 
                                                         <div class="col-xs-12 col-md-6">
+                                                            <input type="hidden" name="id" id="id" value="<%= val2._id %>">
+                                                            <input type="hidden" name="groupName" id="group_name" value="<%= val2.name %>">
                                                             <button class="btn btn-primary add-fav">
                                                                 Add To Favorite
                                                             </button>
@@ -107,6 +109,7 @@
         crossorigin="anonymous"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/group/sendrequest.js"></script>
+    <script src="/js/home.js"></script>
 </body>
 
 </html>
