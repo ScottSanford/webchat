@@ -29,6 +29,8 @@
     </div>
 
     <div class="col-md-12">
+        <input type="hidden" id="name-user" value="<%= user.username %>">
+        <input type="hidden" id="name-image" value="<%= user.userImage %>">
         <div class="">
             <div class="row">
                 <div class="col-md-3">
@@ -112,6 +114,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/group/sendrequest.js"></script>
     <script src="/js/home.js"></script>
+    <script src="/js/global.js"></script>
 </body>
 
 </html>
