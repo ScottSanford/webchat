@@ -36,7 +36,7 @@ container.resolve(function(users, admin, home, group) {
         const router = require('express-promise-router')()
         users.SetRouting(router)
         admin.SetRouting(router)
-        home.SetRouting(router)
+        home.setRouting(router)
         group.SetRouting(router)
 
         app.use(router)

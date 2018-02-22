@@ -78,6 +78,106 @@ module.exports = function() {
             ], (err, results) => {
                 res.redirect(`/group/${req.params.name}`)
             })
+
+            async.parallel([
+                // Update the Receiver of a Friend Request
+                function(callback) {
+                    if(req.body.senderId) {
+                        // Update the User's collection
+                        Users.update({
+                            '_id': req.user._id,
+                            'friendsList.friendId': {$ne: req.body.senderId}
+                        }, {
+                            // Push new friend in friend's list
+                            $push: {
+                                friendsList: {
+                                    friendId: req.body.senderId,
+                                    friendName: req.body.senderName
+                                }
+                            },
+                            // Pull away the request since it's no longer a request
+                            $pull: {
+                                request: {
+                                    userId: req.body.senderId,
+                                    username: req.body.senderName
+                                }
+                            },
+                            // change the value of totalRequest
+                            $inc: {totalRequest: -1}
+                        }, (err, count) => {
+                            callback(err, count)
+                        })
+                    }
+                }, 
+
+                // Update the Sender when the friend request is made
+                function (callback) {
+                    if (req.body.senderId) {
+                        // Update the User's collection
+                        Users.update({
+                            '_id': req.body.senderId,
+                            'friendsList.friendId': { $ne: req.user._id }
+                        }, {
+                                // Push new friend in friend's list
+                                $push: {
+                                    friendsList: {
+                                        friendId: req.user._id,
+                                        friendName: req.user.username
+                                    }
+                                },
+                                // Pull away the sent request since it's no longer a request
+                                $pull: {
+                                    sentRequest: {
+                                        username: req.user.username
+                                    }
+                                },
+                            }, (err, count) => {
+                                callback(err, count)
+                            })
+                    }
+                },
+
+                // Cancel Friend Request on Receiver side
+                function(callback) {
+                    if(req.body.user_Id) {
+                        Users.update({
+                            '_id': req.user._id,
+                            'request.userId': {$eq: req.body.user_Id}
+                        }, {
+                            $pull: {
+                                request: {
+                                    userId: req.body.user_Id,
+                                }
+                            },
+                            // change the value of totalRequest
+                            $inc: { totalRequest: -1 }
+                        }, (err, count) => {
+                            callback(err, count)
+                        })
+                    }
+                },
+
+                function(callback) {
+                    if (req.body.senderName) {
+                        Users.update({
+                            '_id': req.body.user_Id,
+                            'sentRequest.username': { $eq: req.user.username }
+                        }, {
+                            // Pull away the sent request since it's no longer a request
+                            $pull: {
+                                sentRequest: {
+                                    username: req.user.username
+                                }
+                            }
+                        }, (err, count) => {
+                            callback(err, count)
+                        })
+                    }
+                }
+
+            ], (err, results) => {
+                res.redirect(`/group/${req.params.name}`)
+            })
         }
     }
 }

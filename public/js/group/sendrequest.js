@@ -16,7 +16,41 @@ $(document).ready(function(){
 
     socket.on('newFriendRequest', function(friend){
         $('#reload').load(location.href + ' #reload');
-    })
+
+        $(document).on('click', '#accept_friend', function () {
+            var senderId = $('#senderId').val();
+            var senderName = $('#senderName').val();
+
+            $.ajax({
+                url: '/group/' + room,
+                type: 'POST',
+                data: {
+                    senderId: senderId,
+                    senderName: senderName
+                },
+                success: function () {
+                    // remove Accept Friend Element Request in the DOM
+                    $(this).parent().eq(1).remove();
+                }
+            });
+            $('#reload').load(location.href + ' #reload');
+        });
+
+        $(document).on('click', '#cancel_friend', function () {
+            var user_Id = $('#user_Id').val();
+
+            $.ajax({
+                url: '/group/' + room,
+                type: 'POST',
+                data: {user_Id: user_Id},
+                success: function () {
+                    // remove Accept Friend Element Request in the DOM
+                    $(this).parent().eq(1).remove();
+                }
+            });
+            $('#reload').load(location.href + ' #reload');
+        });
+    });
 
     $('#add_friend').on('submit', function(e){
         e.preventDefault();
@@ -50,6 +84,21 @@ $(document).ready(function(){
                 senderId: senderId,
                 senderName: senderName
             },
+            success: function() {
+                // remove Accept Friend Element Request in the DOM
+                $(this).parent().eq(1).remove();
+            }
+        });
+        $('#reload').load(location.href + ' #reload');
+    });
+
+    $('#cancel_friend').on('click', function(){
+        var user_Id = $('#user_Id').val();
+
+        $.ajax({
+            url: '/group/' + room,
+            type: 'POST',
+            data: {user_Id: user_Id},
             success: function() {
                 // remove Accept Friend Element Request in the DOM
                 $(this).parent().eq(1).remove();
