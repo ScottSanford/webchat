@@ -13,4 +13,23 @@ $(document).ready(function(){
             img: img
         });
     });
+
+    socket.on('loggedInUser', function(users) {
+        var friends = $('.friends').text();
+        var friend = friends.split('@');
+
+        var name = $('#name-user').val();
+        var ol = $('<div></div>');
+        var arr = [];
+
+        for (i = 0; i < users.length; i++) {
+            if (friend.indexOf(users[i].name) > -1) {
+                arr.push(users[i])
+                ol.append(users[i].name)
+            }
+        }
+
+        $('#numOfFriends').text('(' + arr.length + ')');
+        $('.onlineFriends').html(ol);
+    })
 });

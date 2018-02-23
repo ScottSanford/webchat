@@ -9,6 +9,7 @@ module.exports = function(io, Global) {
 
             clients.EnterRoom(socket.id, global.name, global.room, global.img)
 
+            // name of all people who are logged into the app
             const nameProp = clients.GetRoomList(global.room)
             const array = _.uniqBy(nameProp, 'name')
 
