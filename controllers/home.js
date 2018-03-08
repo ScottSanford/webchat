@@ -7,7 +7,8 @@ module.exports = function() {
     const home = {
         setRouting,
         getHomePage,
-        postHomePage
+        postHomePage,
+        getLogout
     }
 
     return home
@@ -15,6 +16,8 @@ module.exports = function() {
     function setRouting(router) {
         router.get('/home', home.getHomePage)
         router.post('/home', home.postHomePage)
+
+        router.get('/logout', home.getLogout)
     }
 
     function getHomePage(req, res) {
@@ -86,6 +89,13 @@ module.exports = function() {
             }
         ], (err, results) => {
             res.redirect('/home')
+        })
+    }
+
+    function getLogout(req, res) {
+        req.logout()
+        req.session.destroy(err => {
+            res.redirect('/')
         })
     }
 }

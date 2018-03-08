@@ -6,6 +6,8 @@ module.exports = function() {
         SetRouting: function(router) {
             router.get('/group/:name', this.groupPage)
             router.post('/group/:name', this.groupPostPage)
+
+            router.get('/logout', this.getLogout)
         },
 
         groupPage: function(req, res) {
@@ -177,6 +179,13 @@ module.exports = function() {
 
             ], (err, results) => {
                 res.redirect(`/group/${req.params.name}`)
+            })
+        },
+
+        getLogout: function(req, res) {
+            req.logout()
+            req.session.destroy(err => {
+                res.redirect('/')
             })
         }
     }

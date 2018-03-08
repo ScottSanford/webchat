@@ -17,7 +17,7 @@ $(document).ready(function(){
     socket.on('newFriendRequest', function(friend){
         $('#reload').load(location.href + ' #reload');
 
-        $(document).on('click', '#accept_friend', function () {
+        $(document).on('click', '#accept_friend', function() {
             var senderId = $('#senderId').val();
             var senderName = $('#senderName').val();
 

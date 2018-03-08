@@ -9,6 +9,22 @@ class Global {
         return roomName
     }
 
+    GetUser(id) {
+        const getUser = this.globalRoom.filter(userId => userId.id === id)[0]
+
+        return getUser
+    }
+
+    RemoveUser(id) {
+        const user = this.GetUser(id)
+
+        if (user) {
+            this.user = this.globalRoom.filter(user => user.id !== id)
+        }
+
+        return user
+    }
+
     GetRoomList(room) {
         const roomName = this.globalRoom.filter(user => user.room === room)
         const namesArray = roomName.map(user => {
