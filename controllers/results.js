@@ -18,7 +18,10 @@ module.exports = function() {
                 function(callback) {
                     const regex = new RegExp((req.body.city), 'gi')
 
-                    Group.find({'city': regex}, (err, results) => {
+                    Group.find({'$or': [
+                        {'city': regex},
+                        {'name': regex}
+                    ]}, (err, results) => {
                         callback(err, results)
                     })
                 }
