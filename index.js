@@ -16,7 +16,7 @@ const {Global} = require('./helpers/Global')
 
 const container = require('./container')
 
-container.resolve(function(users, admin, home, group, results) {
+container.resolve(function(users, admin, home, group, results, privateChat) {
 
     mongoose.Promise = global.Promise
     mongoose.connect('mongodb://localhost/webchat')
@@ -41,6 +41,7 @@ container.resolve(function(users, admin, home, group, results) {
         home.setRouting(router)
         group.SetRouting(router)
         results.SetRouting(router)
+        privateChat.SetRouting(router)
 
         app.use(router)
     }
