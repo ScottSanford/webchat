@@ -4,7 +4,7 @@ const Users = require('../models/users')
 module.exports = function() {
     return {
         SetRouting: function(router) {
-            router.get('/chat', this.getChatPage)
+            router.get('/chat/:name', this.getChatPage)
         },
 
         getChatPage: function(req, res) {
