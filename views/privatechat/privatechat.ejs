@@ -110,9 +110,7 @@
                             <div class="row">
                                 <div class="new_message_head">
                                     <div class="pull-left">
-                                        <button class="club_name">
-                                            Username
-                                        </button>
+                                        <button id="receiver_name"></button>
                                     </div>
                                     <div class="pull-right">
                                     </div>
@@ -121,17 +119,17 @@
                                 <div class="chat_area">
                                     <ul id="messages" class="list-unstyled">
                                         <script id="message-template" type="text/template">
-                                        <li class="left">
-                                            <span class="chat-img1 pull-left">
-                                                <img src="http://placehold.it/300x300" class="img-circle" alt="">
-                                            </span>
-                                            <div class="chat-body1">
-                                                <span class="chat-name">{{sender}}</span>
-                                                <br>
-                                                {{text}}
-                                            </div>
-                                        </li>
-                                    </script>
+                                            <li class="left">
+                                                <span class="chat-img1 pull-left">
+                                                    <img src="http://placehold.it/300x300" class="img-circle" alt="">
+                                                </span>
+                                                <div class="chat-body1">
+                                                    <span class="chat-name">{{sender}}</span>
+                                                    <br>
+                                                    {{text}}
+                                                </div>
+                                            </li>
+                                        </script>
                                     </ul>
                                 </div>
 

@@ -6,8 +6,14 @@ module.exports = function(io) {
 
         })
 
-        socket.on('private message', message => {
-            console.log(message)
+        socket.on('private message', (message, callback) => {
+            console.log(message.room)
+            io.to(message.room).emit('new message', {
+                text: message.text,
+                sender: message.from
+            })
+
+            callback()
         })
     })
 }

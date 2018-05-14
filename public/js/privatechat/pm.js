@@ -3,6 +3,9 @@ $(document).ready(function(){
 
     var paramOne = $.deparam(window.location.pathname);
     var newParam = paramOne.split('.');
+
+    var username = newParam[0];
+    $('#receiver_name').text(`@${username}`)
     
     swap(newParam, 0, 1)
     
@@ -10,11 +13,21 @@ $(document).ready(function(){
 
     socket.on('connect', function() {
         var params = {
-            roo1: paramOne,
-            roo2: paramTwo,
+            room1: paramOne,
+            room2: paramTwo,
         }
 
         socket.emit('join PM', params);
+    })
+
+    socket.on('new message', function(data){
+        var template = $('#message-template').html();
+        var message = Mustache.render(template, {
+            text: data.text,
+            sender: data.sender
+        });
+
+        $('#messages').append(message);
     })
 
     // Sending event 'createMessage' to the server
@@ -27,7 +40,8 @@ $(document).ready(function(){
         if (message.trim().length > 0) {
             socket.emit('private message', {
                 text: message,
-                from: sender
+                from: sender,
+                room: paramOne
             }, function () {
                 $('#msg').val('');
             });
