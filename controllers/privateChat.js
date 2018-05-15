@@ -23,10 +23,11 @@ module.exports = function() {
                 },
 
                 function(callback) {
+                    const nameRegrex = new RegExp('^' + req.user.username.toLowerCase(), 'i')
                     Message.aggregate([
                         {$match: {$or: [
-                                        {'senderName': req.user.username}, 
-                                        {'receiverName': req.user.username}
+                                        {'senderName': nameRegrex}, 
+                                        {'receiverName': nameRegrex}
                                     ]
                                 }
                         },
@@ -54,10 +55,13 @@ module.exports = function() {
                 }
             ], (err, result) => {
                 const result1 = result[0]
+                const result2 = result[1]
+                
                 res.render('privatechat/privatechat', {
                     title: 'Webchat - Private',
                     user: req.user,
-                    data: result1
+                    data: result1,
+                    chat: result2
                 })
             })
         },
@@ -65,7 +69,7 @@ module.exports = function() {
         postChatPage: function(req, res, next) {
             const params = req.params.name.split('.')
             const nameParams = params[0]
-            const nameRegrex = RegExp('^'+nameParams.toLowerCase(), 'i')
+            const nameRegrex = new RegExp('^'+nameParams.toLowerCase(), 'i')
 
             async.waterfall([
                 function(callback) {
